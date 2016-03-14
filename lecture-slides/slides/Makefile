@@ -1,7 +1,10 @@
 
 notedir := ../notes
+figdir  :=  ./figures
 
 notes := $(wildcard $(notedir)/*.md)
+figures := $(wildcard $(figdir)/*.tex)
+slides_fig := $(patsubst $(figdir)/%.tex,%.tex,$(figures))
 slides_tex := $(patsubst $(notedir)/%.md,%.tex,$(notes))
 slides_pdf := $(patsubst %.tex,%.pdf,$(slides_tex)) 
 slides_key := $(patsubst %.pdf,%.key,$(slides_pdf)) 
@@ -14,6 +17,9 @@ $(slides_tex): %.tex: $(notedir)/%.md preamble-slides.tex
 	    --latex-engine xelatex \
 	    --filter ../../bin/overlay_filter \
 	    -o $@
+
+$(slides_fig): $(figures)
+	/usr/local/texlive/2015/bin/x86_64-linux/pdflatex $(basename $<)
 
 $(slides_pdf): %.pdf: %.tex
 	/usr/local/texlive/2015/bin/x86_64-linux/latexmk -xelatex $(basename $<)
@@ -30,6 +36,8 @@ $(slides_key): %.key: %.pdf
 	osascript -e 'tell application "PDF To Keynote"' \
 	    -e 'save document 1 in "$(abspath ./$(basename $@))"' \
 	    -e 'end tell'
+
+fig: $(slides_fig)
 
 all: $(slides_pdf)
 
