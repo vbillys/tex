@@ -33,6 +33,7 @@ date: Mar 14, 2016
 - High frequency motion can disturb LIDAR localization
 - Outdoor unstructured terrain may contain difficult features
 - The Quadruped robot may sway during navigation
+- Environmental objects may be hard recognize
 - Many data set are required to test algorithm
 
 # Strategic Approaches
@@ -69,7 +70,7 @@ Note that the 4th level is not allowed in Beamer
 
 - explore, build map, navigate to same place (full SLAM)
 - given prior map, bootstrap robot location, localize and navigate (online SLAM)
-- switchable mode between explore to build map of unknown locations and navigate through a known map
+- switchable mode between explore to build/update map of new/unknown locations and navigate through a known map
 
 ## Support Structure for Localization
 - Tree-based (hierarchical) map representation for global localization
@@ -96,6 +97,7 @@ Note that the 4th level is not allowed in Beamer
 - 3D stereo camera and LIDAR for localization
 - UWB system for preventing robot total lost for safety reasons
 - Cover robot with collision safe material
+- Multiple E-Stop access: on-board, remote, and software interfaces
 
 # Vibration Compensator Options
 
@@ -108,6 +110,49 @@ Note that the 4th level is not allowed in Beamer
 
 # Work Diagram
 
+\resizebox{1.02\textwidth}{!}{
+\begin{tikzpicture}[node distance = 1.2cm, thick, nodes = {align = center},
+    >=latex]
+  \node[Minimum Width = loop, shape = ellipse, fill = red] (imp-sol)
+    {ellipsoid box};
+  \node[Minimum Width = loop, fill = yellow, below = of imp-sol] (rec-box)
+    {rectangular box, and very wiiiiiiiiiiiiiiide\\2nd line};
+  \node[shift = (left:.5*x_node_dist)] at
+    ($(imp-sol.west|-imp-sol.south)!.5!(rec-box.north west)$) (for-1)
+    {formula 1};
+  \node[shift = (right:.5*x_node_dist)] at
+    ($(imp-sol.east|-imp-sol.south)!.5!(rec-box.north east)$) (for-2)
+    {formula 2};
+  \begin{scope}[on background layer]
+    \node[fit = (for-1)(for-2)(imp-sol)(rec-box), basic box = blue,
+      header = DMFT loop] (dmft-l) {};
+  \end{scope}
+  \path[very thick, blue, hv] (rec-box) edge[->] (for-1) edge[<-] (for-2)
+                              (imp-sol) edge[->] (for-2) edge[<-] (for-1);
+
+  \node[east above = of dmft-l, basic box = green, header = DMFT prelude]
+    (dmft-p) {Math and text math and text math and text\\
+              math and text math and text math and text};
+  \node[north left = of dmft-l, basic box = green, header = $\rho$ update,
+     shift = (down:y_node_dist)] (rho)
+    {Much more text much more text\\much more text much more text};
+  \node[basic box = blue, header = DFT part, anchor = north] at
+    (dmft-p.north-|rho) (dft) {So much text so much text so much text\\
+    I think I need \texttt{tikz-lipsum}\\or something like that.};
+  \node[basic box = green, anchor = north] at
+    ($(dft.north east)!.5!(dmft-p.north west)$) (upd) {update\\$math$};
+  \path[fat blue line, <-, dashed, vh] (rho) edge
+    ({$(rho.south)!.5!(dmft-l.south)$}-|dmft-l.south west);
+  \path[fat blue line, ->]
+    ({$(upd.south)!.5!(dmft-p.south)$}-|dmft-p.south west)
+    coordinate (@) edge[<-, solid] coordinate[pos=.15] (@s)
+    coordinate[pos=.9] (@e) (@-|dft.east)
+    {[every edge/.append style=dashed, vh] (@s) edge[<-] (upd) (@e) edge (upd)}
+    (h-rho) edge[dashed] (dft)
+    ($(dmft-p.south)!.5!(dmft-p.south east)$)
+    coordinate (@) edge (@|-dmft-l.north);
+\end{tikzpicture}
+}
 
 # Hardware List 
 
@@ -143,8 +188,8 @@ Note that the 4th level is not allowed in Beamer
 -->
 [\\]: <> (\tikzset{every picture/.style={yscale=0.3,transform shape}})
 \begin{figure}[htb]
-\centering{\resizebox{1.02\textwidth}{!}{\
-  \begin{gantt}[xunitlength=0.9cm,drawledgerline=true]{10}{18}
+\centering{\resizebox{1.02\textwidth}{!}{
+  \begin{gantt}[xunitlength=0.9cm,drawledgerline=true]{11}{18}
     \begin{ganttitle}
     \titleelement{2016}{9}
     \titleelement{2017}{9}
@@ -163,5 +208,6 @@ Note that the 4th level is not allowed in Beamer
     \ganttcon{4}{5}{4}{7}
     \ganttmilestonecon{A connected Milestone}{7}
     \ganttbarcon{another consecutive task}{8}{2}
-  \end{gantt}}}
+  \end{gantt}}
+  }
 \end{figure}
