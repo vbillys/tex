@@ -1,24 +1,32 @@
 \usepackage{pgfpages}
+%\usepackage{gillius2}
+\usepackage{mathpazo}
 \setbeameroption{hide notes}
 
-% colors: white text on 90% black background
-\setbeamercolor{normal text}{fg=white,bg=black!90}
+%% colors: white text on 90% black background
+%\setbeamercolor{normal text}{fg=white,bg=black!90}
 
-% light blue as a highlight color
-\setbeamercolor*{structure}{fg=blue!33!white}
-\setbeamercolor{alerted text}{use=structure,fg=structure.fg}
-\setbeamercolor*{palette primary}{use=structure,fg=structure.fg}
-\setbeamercolor*{palette secondary}{use=structure,fg=structure.fg!95!black}
-\setbeamercolor*{palette tertiary}{use=structure,fg=structure.fg!90!black}
-\setbeamercolor*{palette quaternary}{use=structure,fg=structure.fg!95!black,bg=black!80}
+%% light blue as a highlight color
+%\setbeamercolor*{structure}{fg=blue!33!white}
+%\setbeamercolor{alerted text}{use=structure,fg=structure.fg}
+%\setbeamercolor*{palette primary}{use=structure,fg=structure.fg}
+%\setbeamercolor*{palette secondary}{use=structure,fg=structure.fg!95!black}
+%\setbeamercolor*{palette tertiary}{use=structure,fg=structure.fg!90!black}
+%\setbeamercolor*{palette quaternary}{use=structure,fg=structure.fg!95!black,bg=black!80}
 
 \setbeamercolor*{framesubtitle}{fg=white}
 
+\useinnertheme{default}
 
 % use system fonts: here, Gill Sans
 \usefonttheme{professionalfonts}
-\setmainfont{Gill Sans}
-\setsansfont{Gill Sans}
+%\setmainfont{Gill\ Sans}
+%\setsansfont{Gill\ Sans}
+
+\usefonttheme{serif}
+%\setmainfont{Gillius\ ADF\ No2}
+%\setsansfont{Gillius ADF No2}
+
 \setbeamerfont{quote}{shape=\upshape}
 
 % eliminate silly beamer navigation line at bottom of slides

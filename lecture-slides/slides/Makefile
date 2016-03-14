@@ -12,11 +12,11 @@ $(slides_tex): %.tex: $(notedir)/%.md preamble-slides.tex
 	    --slide-level 1 \
 	    -H preamble-slides.tex \
 	    --latex-engine xelatex \
-	    --filter overlay_filter \
+	    --filter ../../bin/overlay_filter \
 	    -o $@
 
 $(slides_pdf): %.pdf: %.tex
-	latexmk -xelatex $(basename $<)
+	/usr/local/texlive/2015/bin/x86_64-linux/latexmk -xelatex $(basename $<)
 
 # if you don't have Keynote or don't want to generate the Keynote file
 # but want to avoid errors when you use "make all" (the default),
@@ -37,13 +37,13 @@ all_key: $(slides_key)
 
 # clean up everything except pdfs and keynote files 
 clean:
-	latexmk -c
+	/usr/local/texlive/2015/bin/x86_64-linux/latexmk -c
 	rm -rf *.nav *.snm
 	rm -rf $(slides_tex)
 
 # clean up everything including pdfs and keynote files 
 reallyclean:
-	latexmk -C
+	/usr/local/texlive/2015/bin/x86_64-linux/latexmk -C
 	rm -rf $(slides_tex)
 	rm -rf *.nav *.snm
 	rm -rf $(slides_key)
