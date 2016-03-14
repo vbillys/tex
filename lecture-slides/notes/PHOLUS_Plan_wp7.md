@@ -125,11 +125,7 @@ Note that the 4th level is not allowed in Beamer
 
 # Expected Outcome
 
-
-
-## Deliverables
-
-## Timeline
+# Timeline
 
 <!--
 \begin{ganttchart}{12}
@@ -143,11 +139,19 @@ Note that the 4th level is not allowed in Beamer
 \ganttlink{elem2}{elem3}
 \ganttlink{elem3}{elem4}
 \end{ganttchart}
+\begin{gantt}[xunitlength=0.9cm,fontsize=\small,titlefontsize=\small,drawledgerline=true]{10}{18}
 -->
-\begin{figure}
-  \begin{gantt}{10}{12}
+[\\]: <> (\tikzset{every picture/.style={yscale=0.3,transform shape}})
+\begin{figure}[htb]
+\centering{\resizebox{1.02\textwidth}{!}{\
+  \begin{gantt}[xunitlength=0.9cm,drawledgerline=true]{10}{18}
     \begin{ganttitle}
-    \numtitle{1}{1}{12}{1}
+    \titleelement{2016}{9}
+    \titleelement{2017}{9}
+    \end{ganttitle}
+    \begin{ganttitle}
+    \numtitle{4}{1}{12}{1}
+    \numtitle{1}{1}{9}{1}
     \end{ganttitle}
     \ganttbar{a task}{0}{2}
     \ganttbarcon{a consecutive task}{2}{4}
@@ -159,5 +163,5 @@ Note that the 4th level is not allowed in Beamer
     \ganttcon{4}{5}{4}{7}
     \ganttmilestonecon{A connected Milestone}{7}
     \ganttbarcon{another consecutive task}{8}{2}
-  \end{gantt}
+  \end{gantt}}}
 \end{figure}
