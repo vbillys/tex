@@ -21,7 +21,10 @@ $(slides_tex): %.tex: $(notedir)/%.md preamble-slides.tex
 $(slides_fig): $(figures)
 	/usr/local/texlive/2015/bin/x86_64-linux/pdflatex $(basename $<)
 
-$(slides_pdf): %.pdf: %.tex
+$(wildcard ./figures/*.pdf): figures/%.pdf : /home/avavav/Documents/WeiWei/%.eps
+	epspdf $< $@
+
+$(slides_pdf): %.pdf: %.tex $(wildcard ./figures/*.pdf)
 	/usr/local/texlive/2015/bin/x86_64-linux/latexmk -xelatex $(basename $<)
 
 # if you don't have Keynote or don't want to generate the Keynote file
