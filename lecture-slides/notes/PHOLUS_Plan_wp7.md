@@ -170,6 +170,42 @@ Note that the 4th level is not allowed in Beamer
 
 # Expected Outcome
 
+- Robust Localization and Navigation framework
+- Lidar Stabilization method
+- Map building, teach and repeat case
+- Map-less obstacle avoidance and path following/planning
+
+# Software Package Description
+
+\begin{table}[!t]
+\renewcommand{\arraystretch}{1.3}
+
+\label{table_cost}
+\centering
+\tiny
+\scalebox{.65}{
+	\begin{tabular}{p{2.3cm}||p{2.0cm}||p{8cm}||p{2.5cm}}
+	\hline
+		\textbf{Package} &
+		\textbf{Input} & \textbf{Processes Description} & \textbf{Output} \cr
+		\hline\hline
+		\multirow{2}{*}{\parbox[t]{2.3cm}{Vibration\\Compensator}} & Image & Extract Image Feature from an Image & Image Feature \\\cline{2-4}
+		& Image Feature \newline IMU & KLT Tracker: Real-time matching and alignment from frame-to-frame & Angular Pose \\
+		\hline
+		\multirow{4}{*}{Graph SLAM} & 3D/2D Laser Scans & Iterated Closest Point (ICP) & Laser Odometry \\\cline{2-4}
+		& Laser Odometry \newline 3D/2D Laser Scans & Accumulate Laser Scans and build local map & Local Map \\\cline{2-4}
+		& Local Map \newline Global Map & Multiscans ICP, load portions of global map, local-to-local map ICP & Global Robot Pose \newline Global Map\\\cline{2-4}
+		& Local Map \newline Global Map & Loop Closure Detection and Graph Optimization & (optimized) Global Map\\
+		\hline
+		3D Object Detection & 3D Laser Scans \newline RGBD \newline Local Map (from Localization) & Ground removal, Clustering point cloud, improved accuracy from local map & Obstacle Poses   \cr
+		\hline
+		2D Local Map & Robot Pose\newline Global Map\newline 3D Laser Scan\newline 2D Laser Scan & Surrounding sliding window local map super imposed with obstacles data. Project into 2d plane for easy navigational reference, elevation information is available if 3D laser scan is in the input. Elevation is useful for leg placement. & 2D Local Grid Map \newline 2D Local Elevation Map\cr
+		\hline
+		\end{tabular}
+}
+\end{table}
+
+
 # Timeline
 
 <!--
