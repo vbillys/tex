@@ -108,6 +108,29 @@ Note that the 4th level is not allowed in Beamer
 - LIDAR (exploit Local smoothness feature)
 - Combine with smoothing and filtering methods to improve robustness and accuracy (global feature, and outlier rejection)
 
+# Improvement Options for Robustness to initial pose
+- Defer online localization, allow it to stabilize
+- Use safe zoning to reject any spurious initial condition and also to reject invalid pairing in ICP
+- Use feature based matching, such as FLIRT feature in 2D, or incorporate height/layer information as distance metric in ICP
+- Use point to line or point to plane metric in ICP for more robust alignment
+- Use additional smoothing or filtering at post-processing stage, but this must be done carefully as ICP itself needs a good initial values from previous cycle in order to converge correctly
+
+# Note for Integration to Path planning and Control
+
+- ICP based technique uses a Delayed Estimation approach, i.e. the pose correction is delayed until local map is built from accumulated laser scans over ceretain short distance. It is possible, due to high error , large correction to be made. Thus for safe control, a smoothing layer can be added at post processing stage
+- Of course, too large correction may not be an accurate estimation, but this is handled by improving robustness of the localization itself, (see previous slide)
+
+# Possible directions
+
+\begin{enumerate}
+\item{Map-based object detection as prior to machine learning based object detection (points, and its local surface normal, and its relation to other points in an object representation)}
+\item{Object level SLAM instead of point clouds}
+	\begin{enumerate}
+	\item{Local fast, raw point cloud scan matching, for immediate control , and accumulator}
+	\item{Voting system to detect object from accumulated point cloud from a  (learned) object model template}
+	\end{enumerate}
+\end{enumerate}
+
 # Work Diagram
 
 \resizebox{1.02\textwidth}{!}{
@@ -200,6 +223,8 @@ Note that the 4th level is not allowed in Beamer
 		3D Object Detection & 3D Laser Scans \newline RGBD \newline Local Map (from Localization) & Ground removal, Clustering point cloud, improved accuracy from local map & Obstacle Poses   \cr
 		\hline
 		2D Local Map & Robot Pose\newline Global Map\newline 3D Laser Scan\newline 2D Laser Scan & Surrounding sliding window local map super imposed with obstacles data. Project into 2d plane for easy navigational reference, elevation information is available if 3D laser scan is in the input. Elevation is useful for leg placement. & 2D Local Grid Map \newline 2D Local Elevation Map\cr
+		\hline
+		People Tracker & Leg Pose\newline Person Pose & Two level Kalman Filter-based People Tracking & Tracked People Pose\cr
 		\hline
 		\end{tabular}
 }
